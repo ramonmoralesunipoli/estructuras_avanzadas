@@ -1,0 +1,54 @@
+
+//Get keyboard inputs
+key_left = keyboard_check(vk_left);
+key_right = keyboard_check(vk_right);
+key_up = keyboard_check_pressed(vk_up);
+
+//Calculate movement to right or left
+var move = key_right - key_left;
+hsp = move * walksp;
+
+vsp = vsp + grv;
+
+
+if(key_right) and (image_xscale != 1) {
+	image_xscale = choose(1,1)
+}
+
+if(key_left) and (image_xscale != -1) {
+	image_xscale = choose(-1,1)
+}
+
+
+//Jump
+if(place_meeting(x,y+1,OWall)) and (key_up){
+	vsp = -jumpsp;
+	sprite_index = SpriteCat2; // correr
+}
+
+//Horizontal collision
+if(place_meeting(x+hsp,y,OWall)){
+
+	while (!place_meeting(x+sign(hsp),y,OWall))
+	{
+		x = x + sign(hsp);
+	}
+	hsp = 0;
+}
+
+x = x + hsp;
+
+//Vertical collision
+if(place_meeting(x,y+vsp,OWall)){
+
+	while (!place_meeting(x,y+sign(vsp),OWall))
+	{
+		y = y + sign(vsp);
+	}
+	
+	sprite_index = SpriteCat1;
+	
+	vsp = 0;
+}
+
+y = y + vsp;
